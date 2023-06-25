@@ -1,0 +1,82 @@
+/* Page Specs */
+* {
+cursor: pointer 
+}
+body {
+font-family: Arial, sans-serif;
+text-align: center;
+max-width: 100%;
+margin: 0;
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px; 
+background-color: #e1efee;
+}
+header{
+padding: 10px;
+border-bottom: 2px solid #2e7ed9;
+}
+header, #todo-container, #notes-container {
+background-color: rgb(243, 244, 245);
+}
+textarea.userInput {
+width: 350px;
+max-height: 500px;
+resize: vertical; 
+}
+/* To-Do Specs */
+#todo-container {
+max-width: 375px;;
+margin: 20px auto;
+padding: 20px;
+border: 2px solid #2e7ed9;
+border-radius: 25px;
+font-size: 16px;
+text-align: left;
+}
+#notes-container {
+max-width: 375px;
+margin: 20px auto;
+padding: 20px;
+border: 2px solid #2e7ed9;
+border-radius: 25px;
+font-size: 16px; 
+text-align: left;
+}
+.todo-item, {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+}
+.todo-item .delete-btn {
+margin-left: 10px;
+color: red;
+}
+.todo-item.completed {
+text-decoration: line-through;
+color: #888;
+}
+input[type="text"], input[type="date"],
+textarea.userInput {
+font-size: 16px;
+}
+/* BUTTON */
+Button {
+box-shadow: 5px black;
+background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+border-radius:10px;
+color: black;
+padding:5px 15px;
+font-size: 16px;}
+Button:hover {
+background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+background-color:rgb(242, 241, 234);
+font-size: 17px;
+}  
+/* font and text */ 
+p, span {
+font-size: 16px; 
+}
+hr {
+color: #2e7ed9; 
+opacity: .7;
+}
