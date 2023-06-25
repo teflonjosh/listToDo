@@ -1,15 +1,25 @@
-   const todoInput = document.getElementById('input');
-        const todoList = document.getElementById('todo-list');
-        const saveButton = document.getElementById('save-btn');
-        //
-        const deleteAllButton = document.getElementById('delete-all-btn');
+   //######### TASKS ################################ 
+    // DOM ELEMENTS
+    const todoList = document.getElementById('todo-list');
+    const saveButton = document.getElementById('save-btn');
+    // DELETE TASKS DOM
+    const deleteAllButton = document.getElementById('delete-all-btn');
     deleteAllButton.addEventListener('click', deleteAllTasks);
-        //
-        const exportButton = document.getElementById('export-btn');
+    // EXPORT DOM
+    const exportButton = document.getElementById('export-btn');
     exportButton.addEventListener('click', exportTodoList);
-        // Load tasks 
-        loadTasks();
-        // Function to add a new task
+       //PRINT
+       function exportTodoList() {
+        window.print();
+        }
+    // INPUT DOM
+    const todoInput = document.getElementById('input');
+    todoInput.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+       addTask();
+        }
+        });
+      // FUNCTION TO ADD TASK
         function addTask() {
             const taskText = todoInput.value.trim();
             if (taskText !== '') {
@@ -28,28 +38,28 @@
     
                 todoList.appendChild(taskElement);
                 todoInput.value = '';
-    
-                saveTasks(); // Save 
+        // SAVE ADDED TASK
+                saveTasks(); 
             }
         }
-        //delete a task
+        //DELETE A SINGLE TASK
         function deleteTask(event) {
             const taskElement = event.target.parentNode;
             todoList.removeChild(taskElement);
-            saveTasks(); // Save 
+            saveTasks(); 
         }
         // DELETE ALL TASKS!!!!
             function deleteAllTasks() {
             todoList.innerHTML = '';
-            saveTasks(); // Save 
+            saveTasks(); 
         }
-        //toggle a task
+        //FUNCTION TO TOGGLE
         function toggleTask(event) {
             const taskElement = event.target.parentNode;
             taskElement.classList.toggle('completed');
-            saveTasks(); // Save tasks to local storage
+            saveTasks();
         }
-        //Function to SAVE 
+        //FUNCTION TO SAVE TASKS
         function saveTasks() {
             const tasks = [];
             const taskElements = document.getElementsByClassName('todo-item');
@@ -60,11 +70,8 @@
             }
             localStorage.setItem('tasks', JSON.stringify(tasks));
             }
-        //Export Tasks
-        function exportTodoList() {
-        window.print();
-        }
-        //load tasks from local storage
+
+        //LOAD LOCAL
         function loadTasks() {
             const tasks = localStorage.getItem('tasks');
             if (tasks) {
@@ -77,37 +84,35 @@
           <span>${task.text}</span>
           <span class="delete-btn">X</span>
         `;
-                    if (task.completed) {
-                        taskElement.classList.add('completed');
-                    }
-                    const deleteButton = taskElement.querySelector('.delete-btn');
-                    deleteButton.addEventListener('click', deleteTask);
-    
-                    const toggleCheckbox = taskElement.querySelector('.toggle-task');
-                    toggleCheckbox.addEventListener('change', toggleTask);
-    
-                    todoList.appendChild(taskElement);
-                });
-            }
-        }
-        // Event listener for INPUT
-        todoInput.addEventListener('keypress', function (event) {
-          if (event.key === 'Enter') {
-            addTask();
+        // COMPLETED TASKS
+                if (task.completed) {
+                    taskElement.classList.add('completed');
+                }
+                const deleteButton = taskElement.querySelector('.delete-btn');
+                deleteButton.addEventListener('click', deleteTask);
+
+                const toggleCheckbox = taskElement.querySelector('.toggle-task');
+                toggleCheckbox.addEventListener('change', toggleTask);
+
+                todoList.appendChild(taskElement);
+            });
           }
-        });
- 
-    //######### Script for TIME #########################################################################################
+        }
+    // LOAD SAVED TASKS
+    loadTasks();
+//
+    //######### TIME ################################
     function callTime(){ // name function
          let NowDate=(new Date()).toDateString();
     // GET DATE
         let NowTime=(new Date()).toLocaleTimeString(); 
-    // insert to DOM
+    // DOM
     document.getElementById('time').innerHTML=`${NowDate}-${NowTime}`;
       }
-      // setInterval to CALL FUNCTION in MS
+      // CALL FUNCTION in MS
     setInterval(function(){  callTime() }, 1000);
-    //################ Calender Date ######################################################################################
+//
+    //################ CALENDAR ####################
         let today = new Date();
         let formattedDate = today.toISOString().split('T')[0];
         document.getElementById("date").value = formattedDate;
@@ -116,29 +121,49 @@
           let textAreas = document.getElementsByClassName('userInput');
           let savedInput = '';
     
-          for (var i = 0; i < textAreas.length; i++) {
+          for (let i = 0; i < textAreas.length; i++) {
             let userInput = textAreas[i].value;
-            savedInput += userInput + '\n';
+            savedInput += userInput + '';
           }
     
           localStorage.setItem('savedInput', savedInput);
         }
-    
+//
+  //################ NOTE INPUT ####################  
         function loadInput() {
           var savedInput = localStorage.getItem('savedInput');
           if (savedInput) {
             let textAreas = document.getElementsByClassName('userInput');
             let savedLines = savedInput.split('\n');
-            for (var i = 0; i < textAreas.length; i++) {
+            for (let i = 0; i < textAreas.length; i++) {
               textAreas[i].value = savedLines[i];
             }
           }
         }
-    
+     // FUNCTION TO CLEAR NOTES
         function clearInput() {
             let textAreas = document.getElementsByClassName('userInput');
-          for (var i = 0; i < textAreas.length; i++) {
+          for (let i = 0; i < textAreas.length; i++) {
             textAreas[i].value = '';
           }
           localStorage.removeItem('savedInput');
         }
+
+        // FUNCTION TO SAVE NOTES
+        function saveInput() {
+        let textAreas = document.getElementsByClassName('userInput');
+        let savedInput = '';
+      
+        for (let i = 0; i < textAreas.length; i++) {
+          let userInput = textAreas[i].value;
+          savedInput += userInput + '\n';
+        }
+        localStorage.setItem('savedInput', savedInput);
+        }
+        // CALL FUNCTION
+        loadInput();
+        // SAVE NOTES
+        saveButton.addEventListener('click', saveInput);
+//
+//
+// END OF SCRIPT // 
