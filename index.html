@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>List To Do</title>
+            <link rel="stylesheet" href="style.css">
+        <body>
+    <header>
+<p>Today is <span id="time"></span></p> 
+    </header>
+        <div class="container">
+            <div id="todo-container">
+                <h2>Tasks</h2> 
+                    <p>For <input type="date" id="date" name="date"></p>
+                <br>
+            <input id="input" type="text" placeholder="To Do">
+        <div id="todo-list"></div>
+    <hr>
+<button id="save-btn">Save Tasks</button> &nbsp;&nbsp;
+&nbsp;&nbsp;<button id="delete-all-btn">Clear Tasks</button>
+    <p>
+        </div>
+            <div id="notes-container">
+                <section onload="loadInput()">
+                    <h2>Notes</h2>
+                <textarea class="userInput"></textarea>
+            <p>
+        <button onclick="saveInput()">Save Notes</button>&nbsp;&nbsp;
+        &nbsp;&nbsp;<button onclick="clearInput()">Clear Notes</button>
+    </div>
+</div>
+    <button id="export-btn">Print Page</button>
+        <script src="app.js"></script>
+            <footer>
+        </footer>
+    </body>
+</html>
