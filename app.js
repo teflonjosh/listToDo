@@ -3,9 +3,9 @@
 //######### PRINT################################
 // EXPORT DOM
     const exportor = document.getElementById('printBut');
-    exportor.addEventListener('click', exportTodoList);
+    exportor.addEventListener('click', exportList);
 //PRINT
-    function exportTodoList() {
+    function exportList() {
       window.print();
     }
 //
@@ -16,104 +16,121 @@
 // ADD
     const addTaskBtn = document.getElementById('add-task-btn');
     addTaskBtn.addEventListener('click', addTask);
-// FUNCTION TO ADD 
+// FUNCTION TO ADD
     function addTask() {
-      const taskText = taskInput.value.trim();
-      if (taskText !== '') {
-        const taskItem = document.createElement('li');
-        taskItem.classList.add('task-item');
-        const toggleCheckbox = document.createElement('input');
-        toggleCheckbox.type = 'checkbox';
-        toggleCheckbox.addEventListener('change', toggleTaskCompletion);
-        const taskTextSpan = document.createElement('span');
-        taskTextSpan.innerText = taskText;
-        const deleteBtn = document.createElement('button');
-        deleteBtn.innerText = 'x';
-        deleteBtn.addEventListener('click', deleteTask);
-        taskItem.appendChild(toggleCheckbox);
-        taskItem.appendChild(taskTextSpan);
-        taskItem.appendChild(deleteBtn);
-        taskList.appendChild(taskItem);
-        taskInput.value = '';
-      }
-    }
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+    const taskItem = document.createElement('li');
+    taskItem.classList.add('task-item');
+    const toggleBox = document.createElement('input');
+    toggleBox.type = 'checkbox';
+    toggleBox.addEventListener('change', taskCompletion);
+    const textSpan = document.createElement('span');
+    textSpan.classList.add('task-text');
+    textSpan.innerText = taskText;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.innerText = 'x';
+    deleteBtn.addEventListener('click', deleteTask);
+    // TIMESTAMP
+    const timeSpan = document.createElement('span');
+    const timestamp = new Date().toLocaleString(); // Get current timestamp
+    timeSpan.classList.add('timestamp');
+    timeSpan.innerText = timestamp;
+    // APPEND
+    taskItem.appendChild(timeSpan);
+    taskItem.appendChild(toggleBox);
+    taskItem.appendChild(textSpan);
+    taskItem.appendChild(deleteBtn);
+    taskList.appendChild(taskItem);
+    taskInput.value = '';
+  }
+}
 // FUNCTION TO TOGGLE
-    function toggleTaskCompletion(event) {
-      const taskElement = event.target.parentNode;
-      const taskText = taskElement.querySelector('span');
-      taskText.classList.toggle('completed');
+    function taskCompletion(event) {
+    const taskElement = event.target.parentNode;
+    const taskText = taskElement.querySelector('span.task-text');
+    taskText.classList.toggle('completed');
 //
-      const toggleCheckbox = event.target;
-      if (toggleCheckbox.checked) {
-        taskElement.classList.add('completed');
-      } else {
-        taskElement.classList.remove('completed');
-      }
+    const toggleBox = event.target;
+    if (toggleBox.checked) {
+    taskElement.classList.add('completed');
+    } else {
+    taskElement.classList.remove('completed');
     }
+}
 // FUNCTION TO DELETE SINGLE TASK
     function deleteTask(event) {
-      const taskItem = event.target.parentNode;
-      taskList.removeChild(taskItem);
+    const taskItem = event.target.parentNode;
+    taskList.removeChild(taskItem);
     }
 // DELETE ALL
     const deleteAll = document.getElementById('deleteTodo');
     deleteAll.addEventListener('click', deleteAllTasks);
 // FUNCTION TO DELETE ALL
     function deleteAllTasks() {
-      taskList.innerHTML = '';
+    taskList.innerHTML = '';
     }
 // SAVE
     const saveBut = document.getElementById('saveBut');
     saveBut.addEventListener('click', saveTask);
 // FUNCTION TO SAVE
     function saveTask() {
-      const tasks = [];
-      const taskItems = taskList.querySelectorAll('.task-item');
-      taskItems.forEach((item) => {
-        tasks.push({
-          text: item.querySelector('span').innerText,
-          completed: item.querySelector('input[type="checkbox"]').checked,
-        });
-      });
-      localStorage.setItem('savedTasks', JSON.stringify(tasks));
-      alert('Current Task List Has Been Saved. Please Select LOAD to Review Saved Tasks.');
+        const tasks = [];
+        const taskItems = taskList.querySelectorAll('.task-item');
+    taskItems.forEach((item) => {
+        const taskText = item.querySelector('span.task-text').innerText;
+        const timestamp = item.querySelector('span.timestamp').innerText;
+        const completed = item.querySelector('input[type="checkbox"]').checked;
+    tasks.push({
+        text: taskText,
+        timestamp: timestamp,
+        completed: completed,
+    });
+    });
+    localStorage.setItem('savedTasks', JSON.stringify(tasks));
+    alert('Current Task List has been saved. Please select LOAD to review saved tasks.');
     }
 // LOAD
-    const loadBut = document.getElementById('load');
-    loadBut.addEventListener('click', loadTask);
-// FUNCTION TO LOAD 
-    function loadTask() {
-      const savedTasks = localStorage.getItem('savedTasks');
-      if (savedTasks) {
-        const tasks = JSON.parse(savedTasks);
-        taskList.innerHTML = '';
-//
-        tasks.forEach((task) => {
-          const taskItem = document.createElement('li');
-          taskItem.classList.add('task-item');
-          const toggleCheckbox = document.createElement('input');
-          toggleCheckbox.type = 'checkbox';
-          toggleCheckbox.addEventListener('change', toggleTaskCompletion);
-          const taskTextSpan = document.createElement('span');
-          taskTextSpan.innerText = task.text;
-          const deleteBtn = document.createElement('button');
-          deleteBtn.innerText = 'x';
-          deleteBtn.addEventListener('click', deleteTask);
-          if (task.completed) {
-            taskTextSpan.classList.add('completed');
-            toggleCheckbox.checked = true;
-          }
-//
-          taskItem.appendChild(toggleCheckbox);
-          taskItem.appendChild(taskTextSpan);
-          taskItem.appendChild(deleteBtn);
-          taskList.appendChild(taskItem);
-        });
-        alert('Previously Saved Tasks Have Been Successfully Loaded.');
-      } else {
-        alert('No Previously Saved Tasks Located. Please Review Workflow and Try Again.');
+const loadBut = document.getElementById('load');
+loadBut.addEventListener('click', loadTask);
+// FUNCTION TO LOAD
+function loadTask() {
+  const savedTasks = localStorage.getItem('savedTasks');
+if (savedTasks) {
+    const tasks = JSON.parse(savedTasks);
+    taskList.innerHTML = '';
+    tasks.forEach((task) => {
+      const taskItem = document.createElement('li');
+      taskItem.classList.add('task-item');
+      const toggleBox = document.createElement('input');
+      toggleBox.type = 'checkbox';
+      toggleBox.addEventListener('change', taskCompletion);
+      const textSpan = document.createElement('span');
+      textSpan.classList.add('task-text');
+      textSpan.innerText = task.text;
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerText = 'x';
+      deleteBtn.addEventListener('click', deleteTask);
+if (task.completed) {
+        textSpan.classList.add('completed');
+        toggleBox.checked = true;
       }
-    }
+      const timeSpan = document.createElement('span');
+      timeSpan.classList.add('timestamp');
+      timeSpan.innerText = task.timestamp;
+// APPEND DOM
+      taskItem.appendChild(timeSpan);
+      taskItem.appendChild(toggleBox);
+      taskItem.appendChild(textSpan);
+      taskItem.appendChild(deleteBtn);
+      taskList.appendChild(taskItem);
+    });
+// ALERTS
+    alert('Previously Saved Tasks Have Been Successfully Loaded.');
+  } else {
+    alert('No Previously Saved Tasks Located. Please Review Workflow and Try Again.');
+  }
+}
 //
 //######### TIME ################################
     function callTime() { // name function
@@ -172,7 +189,6 @@
     function saveInput() {
       let textAreas = document.getElementsByClassName('userInput');
       let savedInput = '';
-
       for (let i = 0; i < textAreas.length; i++) {
         let userInput = textAreas[i].value;
         savedInput += userInput + '\n';
