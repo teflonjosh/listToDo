@@ -31,12 +31,12 @@
     const deleteBtn = document.createElement('button');
     deleteBtn.innerText = 'x';
     deleteBtn.addEventListener('click', deleteTask);
-    // TIMESTAMP
+// TIMESTAMP
     const timeSpan = document.createElement('span');
     const timestamp = new Date().toLocaleString(); // Get current timestamp
     timeSpan.classList.add('timestamp');
     timeSpan.innerText = timestamp;
-    // APPEND
+// APPEND
     taskItem.appendChild(timeSpan);
     taskItem.appendChild(toggleBox);
     taskItem.appendChild(textSpan);
@@ -189,6 +189,7 @@ if (task.completed) {
     function saveInput() {
       let textAreas = document.getElementsByClassName('userInput');
       let savedInput = '';
+
       for (let i = 0; i < textAreas.length; i++) {
         let userInput = textAreas[i].value;
         savedInput += userInput + '\n';
